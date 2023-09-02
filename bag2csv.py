@@ -28,7 +28,7 @@ elif (len(sys.argv) == 2):
 	numberOfFiles = "1"
 	print ("reading only 1 bagfile: " + str(listOfBagFiles[0]))
 elif (len(sys.argv) == 1):
-	listOfBagFiles = [f for f in os.listdir(".") if f[-4:] == ".bag"]	#get list of only bag files in current dir.
+	listOfBagFiles = [f for f in os.listdir(".") if f[-4:] == ".bag"] #get list of only bag files in current dir.
 	numberOfFiles = str(len(listOfBagFiles))
 	print ("reading all " + numberOfFiles + " bagfiles in current directory: \n")
 	for f in listOfBagFiles:

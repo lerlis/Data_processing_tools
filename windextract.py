@@ -3,6 +3,9 @@ import os
 import numpy as np
 import openpyxl
 
+from fileprocess import CSVFile_extractor
+from timetrans import TimeBridgeofPX4andROS
+
 class WindExtractor:
     def __init__(self, path):
         self.WindFilePath = path
@@ -23,7 +26,11 @@ class WindExtractor:
         
     def ulogname2date(self, ulogfile_name):
         process_name = ulogfile_name.split('-')
-        date_name = '0' + process_name[1] + process_name[2]
+        if len(process_name[1]) == 1:
+            process_name[1] = '0' + process_name[1]
+        if len(process_name[2]) == 1:
+            process_name[2] = '0' + process_name[2]
+        date_name = process_name[1] + process_name[2]
         # print(date_name)
         return date_name
 
@@ -86,17 +93,66 @@ class WindExtractor:
                 break
         return selected_data
 
-        
+
+def check_labels(file_name, labels):
+    if file_name[0:3] == labels[0]:
+        return 1
+    if file_name[0:9] == labels[1]:
+        return 2
+    if file_name[0:8] == labels[2]:
+        return 3
+    return 0
+
+
 if __name__ == "__main__":
-    path = 'F://健康评估//数据集论文//实飞//怀来实飞数据//wind'
-    WEcase = WindExtractor(path)
-    ulogfile_name = 'log_7_2023-5-25-10-48-42.ulg'
-    
-    ulogtime = [146207571, 232620627]
-    xlspath = WEcase.filefinder(ulogfile_name)
-    if xlspath != 100:
-        WEcase.file_reader(xlspath)
-        # selectedDayWind = WEcase.wind_data_selector(ulogtime)
-    else:
-        print("No such wind data satisfied! Please re-check!")
-    
+    Data_path = 'F://健康评估//数据集论文//实飞//整理数据//680//'
+    path_dirs = os.listdir(Data_path)
+    ty_labels = ['log', 'rfly_real', 'TestInfo']
+    # Wind correlation
+    Wind_path = 'F://健康评估//数据集论文//实飞//怀来实飞数据//wind'
+    WEcase = WindExtractor(Wind_path)
+    for dir in path_dirs:
+        process_path = Data_path + dir
+        print(process_path)
+        CFEcase = CSVFile_extractor(process_path)
+        file_name_list = os.listdir(process_path)
+        print(file_name_list)
+        for i in range(len(file_name_list)):
+            return_num = check_labels(file_name_list[i], ty_labels)
+            if return_num == 1:
+                PX4_file_folder = file_name_list[i]
+            elif return_num == 2:
+                ROS_file_folder = file_name_list[i]
+        file_name = PX4_file_folder + '_actuator_armed_0.csv'
+        labels = ['timestamp', 'armed', 'manual_lockdown', 'force_failsafe']
+        labels_format = ['int', 'int', 'int', 'int']
+        ArmData = CFEcase.DataFromCSV(file_name, labels, labels_format, PX4_file_folder)
+        ulogtime = CFEcase.get_start_end_time(ArmData)
+        R_file_name = '_slash_mavros_slash_timesync_status.csv'
+        R_labels = ['rosbagTimestamp', 'remote_timestamp_ns']
+        R_labels_format = ['int', 'int']
+        TimesyncData = CFEcase.DataFromCSV(R_file_name, R_labels, R_labels_format, ROS_file_folder)
+        start_time = TimesyncData[1]
+        TimeTool = TimeBridgeofPX4andROS(ros_t=start_time[0], px4_t=start_time[1]//1000)
+        ulogfile_name = PX4_file_folder + '.ulg'
+        xlspath = WEcase.filefinder(ulogfile_name)
+
+        if os.path.exists(process_path + '//no_wind_data.txt'):  # 如果有同名的文件，则删除
+            os.remove(process_path + '//no_wind_data.txt')
+
+        if xlspath != 100:
+            WEcase.file_reader(xlspath)
+            selectedDayWind = WEcase.wind_data_selector(ulogtime, TimeTool)
+            CFEcase.generate_CSV_data(selectedDayWind, 'wind_data.csv')
+            if len(selectedDayWind) == 1:
+                print("Has file, but no data")
+                with open(process_path + '//no_wind_data.txt', 'w', newline='') as f:
+                    sentence = 'This flight has no wind data'
+                    f.write(sentence)
+        else:
+            print("No such wind data satisfied! Please re-check!")
+            with open(process_path + '//no_wind_data.txt', 'w', newline='') as f:
+                sentence = 'This flight has no wind data'
+                f.write(sentence)
+            
+

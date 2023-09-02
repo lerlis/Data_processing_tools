@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import os
 import time
 
@@ -27,7 +28,9 @@ for bagFile in listOfBagFiles:
     time.sleep(10)
     print("Finished!!! Now start rosbag fix process!!")
     os.system("rosbag fix --force {} fix1.bag".format(file_name))
-    time.sleep(60)
+    # Decided by the file size of BAG, if the file is too large
+    # the sleeping time maybe not enough
+    time.sleep(60)  
     print("Finished!!!!")
     os.system('sudo rm -f {}'.format(file_name))
     os.system('sudo rm -f {}'.format(orig_file_name))
