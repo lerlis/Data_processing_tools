@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# Copyright (C) rflylab from School of Automation Science and Electrical Engineering, Beihang University.
+# All Rights Reserved.
 import os
 import numpy as np
 import openpyxl

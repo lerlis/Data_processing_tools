@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) rflylab from School of Automation Science and Electrical Engineering, Beihang University.
+# All Rights Reserved.
 import time
 import numpy as np
 
@@ -28,13 +31,13 @@ class TimeBridgeofPX4andROS:
     def CalculateTimebiasROS(self, now_ROS_timestamp):
         Timebias = now_ROS_timestamp - self.ROS_start_time
         # Units below: seconds (s)
-        Timebias = round((Timebias / 1e9), 3)
+        Timebias = round((Timebias / 1e9), 6)
         return Timebias
 
-    def CalcualteTimebiasPX4(self, now_PX4_timestamp):
+    def CalculateTimebiasPX4(self, now_PX4_timestamp):
         Timebias = now_PX4_timestamp - self.PX4_start_time
         # Units below: seconds (s)
-        Timebias = round((Timebias / 1e6), 3)
+        Timebias = round((Timebias / 1e6), 6)
         return Timebias
     
     def PX4transROS(self, timebias):
@@ -47,7 +50,6 @@ class TimeBridgeofPX4andROS:
 
 
 if __name__ == "__main__":
-    
     Timebias = 1684207343587960000
     Timebias = round((Timebias / 1e9), 3)
     print(Timebias)
