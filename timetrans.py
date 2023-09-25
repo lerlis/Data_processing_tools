@@ -49,6 +49,31 @@ class TimeBridgeofPX4andROS:
         return PX4_timestamp
 
 
+class TimeBridgeofPX4andGTD:
+    def __init__(self, gtd_t, px4_t):
+        self.GTD_start_time = gtd_t
+        self.PX4_start_time = px4_t
+
+    def CalculateTimebiasGTD(self, now_GTD_timestamp):
+        # Units below: seconds (s)
+        Timebias = now_GTD_timestamp - self.GTD_start_time
+        return Timebias
+    
+    def CalculateTimebiasPX4(self, now_PX4_timestamp):
+        Timebias = now_PX4_timestamp - self.PX4_start_time
+        # Units below: seconds (s)
+        Timebias = round((Timebias / 1e6), 6)
+        return Timebias
+
+    def PX4transGTD(self, timebias):
+        GTD_timestamp = self.GTD_start_time + timebias
+        return GTD_timestamp
+
+    def GTDtransPX4(self, timebias):
+        PX4_timestamp = self.PX4_start_time + timebias * 1e6
+        return PX4_timestamp
+
+
 if __name__ == "__main__":
     Timebias = 1684207343587960000
     Timebias = round((Timebias / 1e9), 3)

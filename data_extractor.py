@@ -2,7 +2,6 @@
 # Copyright (C) rflylab from School of Automation Science and Electrical Engineering, Beihang University.
 # All Rights Reserved.
 import json
-import os
 
 def get_keys(d, value):
     return [k for k, v in d.items() if v == value]

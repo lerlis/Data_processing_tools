@@ -13,7 +13,9 @@ ProjectPath = os.path.dirname(__file__)
 def TimeStamp_remove(header):
     if header[0] == 'timestamp' or header[0] == 'rosbagTimestamp':
         key_name = header[0]
-        header.remove(key_name)
+    elif header[1] == 'uavTime' or header[1] == 'trueTime':
+        key_name = header[1]
+    header.remove(key_name)
     return header
 
 def file_name_extractor(name):
@@ -109,6 +111,7 @@ def Generate_SHIL_flight_dict(PX4_path, GTD_path, generate_path):
         header = []
         for row in sheet[1]:
             header.append(row.value)
+        header = TimeStamp_remove(header)
         dict_single = dict(zip(header, [0 for _ in range(len(header))]))
         dict_case = {remove_file_name_suffix(listofXLSXFiles[i]): dict_single}
         dict_whole.update(dict_case)
@@ -124,7 +127,7 @@ if __name__ == "__main__":
     mode = 0 refers to HIL or SIL,
     and mode = 1 refers to Real
     """
-    mode = 1
+    mode = 0
     if mode == 0:  # Generate data dict used for SIL and HIL flight data
         PX4_path = './SampleData\\HIL\\acce\\TestCase_1_2400000000\\Log'
         GTD_path = './SampleData\\HIL\\acce\\TestCase_1_2400000000\\TrueData'

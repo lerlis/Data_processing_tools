@@ -2,7 +2,6 @@
     "HIL_Ground_Truth_Data": {
         "TrueState_data": {
             "index": 0,
-            "trueTime": 1,
             "PosGPS[1]": 0,
             "PosGPS[2]": 0,
             "PosGPS[3]": 0,
@@ -34,11 +33,10 @@
             "motorRPMs[7]": 0,
             "motorRPMs[8]": 0,
             "cmd": 0,
-            "fault_state": 1
+            "fault_state": 0
         },
         "UAVState_data": {
             "index": 0,
-            "uavTime": 0,
             "PosGPS[1]": 0,
             "PosGPS[2]": 0,
             "PosGPS[3]": 0,
@@ -60,8 +58,8 @@
             "AngRate[1]": 0,
             "AngRate[2]": 0,
             "AngRate[3]": 0,
-            "cmd": 0,
-            "fault_state": 0
+            "cmd": 1,
+            "fault_state": 1
         }
     }
 }
