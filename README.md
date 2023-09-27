@@ -8,7 +8,7 @@ cd <Your local folder>
 git clone https://github.com/lerlis/Data_processing_tools.git
 cd fault_data_process
 ```
-To avoid unnecessary trouble, we strongly recommmand you to use the same version of python and related libraries. The detailed information about the version is in [Requirements](#4requirements).
+To avoid unnecessary trouble, we strongly recommend you to use the same version of python and related libraries. The detailed information about the version is in [Requirements](#4requirements).
 
 In order to use this toolkit as easy as possible, the dataset structure should be as follows:
 ```
@@ -191,9 +191,9 @@ Take `data_real_PX4.json` as an example, if you want to choose a message topic i
     }
 }
 ```
-As shown above, `control[0]`, `control[1]`, `control[2]`, `control[3]` are selected and will be prscessed by this toolkit, and other message topics in this file `_actuator_controls_0_0.csv` won't be processd. Besides, all dictionary key-value pair of message topics in file `_actuator_armed_0.csv` are set to 0, which means this entire file won't be processed or even be read by programs.
+As shown above, `control[0]`, `control[1]`, `control[2]`, `control[3]` are selected and will be processed by this toolkit, and other message topics in this file `_actuator_controls_0_0.csv` won't be processed. Besides, all dictionary key-value pair of message topics in file `_actuator_armed_0.csv` are set to 0, which means this entire file won't be processed or even be read by programs.
 
-Note:  `Flight Information` contains a consise summary information of a single flight case, so there is no need to process this file. `Telemetry Log` have not been taken into consideration in this toolkit version, and toolkits which could process `Telemetry Log` will be developed and released in the future.
+Note:  `Flight Information` contains a concise summary information of a single flight case, so there is no need to process this file. `Telemetry Log` have not been taken into consideration in this toolkit version, and toolkits which could process `Telemetry Log` will be developed and released in the future.
 
 ### 2.5 [Additional] Generate your own JSON for data topic selection
 In this toolkit, we have generated `JSON` files by using RflyMAD data which are under data formats we designed. If you want to transfer your own data, such as ULog and Rosbag with different message topics, you can use `./Data_processing_tools/read_contents.py` to generate `JSON` file that is suitable for your data, and then follow the above steps to get the processed files.
@@ -216,7 +216,7 @@ Before using the function, you need to adjust `mode` and data restore formats, a
         \_slash_mavros_slash_<topic_name1>.csv
         ...
         \_slash_mavros_slash_<topic_nameN>.csv
-    \Testinfo.csv
+    \TestInfo.csv(Flight Information)
 ...
 ```
 Next code shows how to run `./Data_processing_tools/read_contents.py` to generate `JSON` files. And `/Log` and `TrueData` mean `PX4_path` and `GTD_path` in HIL simulation data, `/log_6_2023-5-17-15-43-36` and `/rfly_real_2023-05-17-15-41-51` mean `PX4_path` and `ROS_path` in real flight data. `generate_path` could be set as you want.
