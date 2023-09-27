@@ -11,8 +11,8 @@ class UlogProcessor:
 
     def Create_folder(self, name):
         self.TargetFilder_log = self.DataPath + '/' + name
-        if os.path.exists(self.TargetFilder_log):  # 如果有同名的文件夹，则删除重建
-            shutil.rmtree(self.TargetFilder_log)
+        if os.path.exists(self.TargetFilder_log):  # If there is folder with the same name, delete it and reconstruct.
+            shutil.rmtree(self.TargetFilder_log)  
         os.makedirs(self.TargetFilder_log)
 
     def Ulog2csv_py(self):

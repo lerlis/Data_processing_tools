@@ -1,4 +1,10 @@
 #!/usr/bin/python
+
+# This file is used to fix bag files in ubuntu system.
+# By using this file, all active bag files in this folder
+# will be converted into normal state.
+
+
 import os
 import time
 
@@ -12,7 +18,7 @@ def new_name(name):
     new_name = process_temp[0] + '.' + process_temp[1]
     return new_name
 
-listOfBagFiles = [f for f in os.listdir(".") if f[-7:] == ".active"]	#get list of only active bag files in current dir.
+listOfBagFiles = [f for f in os.listdir(".") if f[-7:] == ".active"]  # get list of only active bag files in current dir.
 numberOfFiles = str(len(listOfBagFiles))
 print ("reading all " + numberOfFiles + " active bagfiles in current directory: \n")
 

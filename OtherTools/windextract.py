@@ -139,7 +139,7 @@ if __name__ == "__main__":
         ulogfile_name = PX4_file_folder + '.ulg'
         xlspath = WEcase.filefinder(ulogfile_name)
 
-        if os.path.exists(process_path + '//no_wind_data.txt'):  # 如果有同名的文件，则删除
+        if os.path.exists(process_path + '//no_wind_data.txt'):  # If there is folder with the same name, delete it and reconstruct.
             os.remove(process_path + '//no_wind_data.txt')
 
         if xlspath != 100:

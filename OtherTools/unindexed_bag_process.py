@@ -1,6 +1,10 @@
 import time
 import os #for file management make directory
 
+# This file realize the same function in 'bag_active_process.py'
+# The difference is that all function are integrated in one CLASS,
+# and could be called by other programs.
+
 class unindexed_processor:
     def __init__(self, name):
         self.processor_path = os.path.dirname(__file__)

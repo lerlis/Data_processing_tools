@@ -17,6 +17,9 @@ import string
 import os #for file management make directory
 import shutil #for file management, copy file
 
+# This file have the same function of 'bag2csv_pyhton2.py'
+# But it could run in Python3
+
 #verify correct input arguments: 1 or 2
 if (len(sys.argv) > 2):
 	print ("invalid number of arguments:   " + str(len(sys.argv)))
