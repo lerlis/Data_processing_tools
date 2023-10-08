@@ -3,7 +3,7 @@ Welcome to use Data processing tools designed for RflyMAD dataset ! With this to
 
 ## Quick Start
 Download the toolkit into the local folder as follows:
-```
+```shell
 cd <Your local folder>
 git clone https://github.com/lerlis/Data_processing_tools.git
 cd ./fault_data_process
@@ -11,7 +11,7 @@ cd ./fault_data_process
 To avoid unnecessary trouble, we strongly recommend you to use the same version of python and related libraries. The detailed information about the version is in [Requirements](#4requirements).
 
 In order to use this toolkit as easy as possible, the dataset structure should be as follows:
-```
+```text
 \RflyMAD dataset
     \SIL
         \acce <Flight status>
@@ -47,7 +47,7 @@ Note: The RflyMAD dataset is able to be downloaded from [here](https://rfly-open
 If you want to use RflyMAD as soon as possible and learn how to use this toolkit quickly, please follow the instructions below.
 ### 1. Select Data Type
 First of all, you need to select which sub-dataset, flight status and fault types you want. Besides, in each occasion, how many flight cases you want to get and the data is processed in what kinds of frequency. We have integrated the functionality mentioned above by using `argparse` with Python. Here is the detailed introduction:
-```
+```python
 def get_parse():
     # parse parameters
     parser = argparse.ArgumentParser(description='Dataset process tools')
@@ -95,7 +95,7 @@ def get_parse():
 ```
 
 With `argparse`, you can modify the default settings in `./Data_processing_tools/get_parse.py` or run following example command in `cmd` window to realize the function of select certain data type:
-```
+```shell
 python Rflytool_main.py --fault_type 5 8 6 --flight_status 1
 ```
 And the exact meaning of each parser argument is explained in the following table.
@@ -163,7 +163,7 @@ In order to make the selection process simpler and clearer, we have generated `j
 - `data_real_PX4.json`. Used for Real flight data, extract data in `ULog`.
 
 Take `data_real_PX4.json` as an example, if you want to choose a message topic in a certain file, you can just set the dictionary key-value pair for this topic to 1. And set that to 0 means this topic is not selected, and this topic won't appeared in the processed files.
-```
+```json
 {
     "Real_PX4": {
         "_actuator_armed_0": {
@@ -198,7 +198,7 @@ Note:  `Flight Information` contains a concise summary information of a single f
 ### 2.5 [Additional] Generate your own JSON for data topic selection
 In this toolkit, we have generated `JSON` files by using RflyMAD data which are under data formats we designed. If you want to transfer your own data, such as ULog and Rosbag with different message topics, you can use `./Data_processing_tools/read_contents.py` to generate `JSON` file that is suitable for your data, and then follow the above steps to get the processed files.
 Before using the function, you need to adjust `mode`, and your own data restore formats need to de adjusted as follows:
-```
+```text
 ...
 \<Exact flight cases>
     \PX4_path
@@ -220,7 +220,7 @@ Before using the function, you need to adjust `mode`, and your own data restore 
 ...
 ```
 Next code shows how to run `./Data_processing_tools/read_contents.py` to generate `JSON` files. `/Log` and `/TrueData` mean `PX4_path` and `GTD_path` in HIL simulation data, `/log_6_2023-5-17-15-43-36` and `/rfly_real_2023-05-17-15-41-51` mean `PX4_path` and `ROS_path` in real flight data. `generate_path` could be set as you want.
-```
+```python
 if __name__ == "__main__":
     """
     mode = 0 refers to HIL or SIL,
@@ -242,7 +242,7 @@ When set `mode=0`, the program will generate `JSON` files for PX4 and Ground tru
 
 ### 3. Get Processed Files！
 After finishing all above steps, you are very close to get the final processed files, the last step is to run `./Data_processing_tools/Rflytool_main.py` in your editor or excute it in the command-line terminal as: 
-```
+```shell
 cd ./Data_processing_tools
 python Rflytool_main.py 
 ```
@@ -256,7 +256,7 @@ The `ULog` and `BAG` data in real flight data have already been converted in ori
 
 ## Requirements
 It is strongly recommended to use the same Python version and related environment to ensure better and smoother usage of this code. The contents of  `requirements.txt` is shown in the following.
-```
+```text
 python==3.9.7
 matplotlib==3.4.3
 numpy==1.20.3
