@@ -8,7 +8,7 @@ import argparse
 def parser_param_process(params):
     # Get original data path
     original_path = params.original_path
-    # Get restore path 
+    # Get restore path
     restore_path = params.restore_path
     # Get sub-dataset path
     param = params.sub_dataset
@@ -113,9 +113,9 @@ def fault_id_dict(key):
 def get_parse():
     # parse parameters
     parser = argparse.ArgumentParser(description='Dataset process tools')
-    parser.add_argument('--original_path', type=str, default='./SampleData',
+    parser.add_argument('--original_path', type=str, default='../fault_data_process_data/TestData',
                         help='original data restore path')
-    parser.add_argument('--restore_path', type=str, default='./ProcessData',
+    parser.add_argument('--restore_path', type=str, default='../fault_data_process_data/ProcessData',
                         help='process data restore path')
     # sub-dataset:
     # default = 0, trans data in the SIL, HIL and Real folder
@@ -127,14 +127,14 @@ def get_parse():
     # fault type:
     # default = 0, trans all the fault type in the dataset
     # others occasions, please see readme.md
-    # Note: if you only choose one sub-dataset type, please input as [X]
+    # Note: if you only choose one fault type, please input as [X]
     parser.add_argument('--fault_type', type=int, nargs='+', default=[0],
                         choices=range(0, 12),
                         help='select the fault type you want')
     # flight status:
     # default = 0, trans all the flight type in the dataset
     # other occasions, please see readme.md
-    # Note: if you only choose one sub-dataset type, please input as [X]
+    # Note: if you only choose one flight status, please input as [X]
     parser.add_argument('--flight_status', type=int, nargs='+', default=[0],
                         choices=range(0, 7),
                         help='select the flight status you need')
@@ -144,7 +144,7 @@ def get_parse():
     parser.add_argument('--trans_num', type=int, default=-1,
                         help='the number of cases to transfer')
     # trans frequency:
-    # default = 20, users could change the frequency as they want
+    # default = 20, users could change the frequency as they want, unit:Hz
     parser.add_argument('--trans_freq', type=int, default=20,
                         help='the data frequency in processed files')
     return parser

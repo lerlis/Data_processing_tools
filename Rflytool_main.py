@@ -145,7 +145,7 @@ def SHIL_data_reader(datapath, datatype, Set_frequency, restore_path):
     G_file_name = 'TrueState_data.csv'
     TimeData = CFEcase.DataFromCSV_Panda(G_file_name, G_labels, GTD_file_folder)
     T_start_time, T_end_time = TimeData[1], TimeData[-1]
-    # print(T_start_time, T_end_time)
+    # print(T_start_time, T_end_time) 
     # **********************************************************************************
     # 3 initialise timestamp tools
     TimeTool = TimeBridgeofPX4andGTD(gtd_t=T_start_time, px4_t=start_time)
@@ -161,12 +161,12 @@ def SHIL_data_reader(datapath, datatype, Set_frequency, restore_path):
     new_end_time = new_end_time if new_end_time < T_end_time else T_end_time
     # Generate target time vector
     target_timevec = range(new_fly_time, new_end_time,  int(1e6 * (1/Set_frequency)))
-    target_timevec_ms = range(new_fly_time//1000, new_end_time//1000,  int(1e3 * (1/Set_frequency)))
-    
+    # target_timevec_ms = range(new_fly_time//1000, new_end_time//1000,  int(1e3 * (1/Set_frequency)))
+    target_timevec_ms = np.arange(round(new_fly_time/1000, 3), round(new_end_time/1000, 3), int(1e3 * (1/Set_frequency)))
     new_fly_time_bias = TimeTool.CalculateTimebiasPX4(new_fly_time)
     GTD_fly_time = TimeTool.PX4transGTD(new_fly_time_bias)
     new_end_time_bias = TimeTool.CalculateTimebiasPX4(new_end_time)
-    GTD_end_time = TimeTool.PX4transGTD(new_end_time_bias)
+    GTD_end_time = round(TimeTool.PX4transGTD(new_end_time_bias), 3)
     # print(GTD_fly_time, GTD_end_time)
     
     target_timevec_s = np.arange(GTD_fly_time, GTD_end_time, 1/Set_frequency)

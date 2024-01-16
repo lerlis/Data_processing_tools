@@ -8,7 +8,7 @@ cd <Your local folder>
 git clone https://github.com/lerlis/Data_processing_tools.git
 cd ./fault_data_process
 ```
-To avoid unnecessary trouble, we strongly recommend you to use the same version of python and related libraries. The detailed information about the version is in [Requirements](#4requirements).
+To avoid unnecessary trouble, we strongly recommend you to use the same version of python and related libraries. The detailed information about the version is in [Requirements](#requirements).
 
 In order to use this toolkit as easy as possible, the dataset structure should be as follows:
 ```text
@@ -39,7 +39,7 @@ In order to use this toolkit as easy as possible, the dataset structure should b
     \Real
         ... <Flight status>
 ```
-And that is the same structure in our [data paper]() and the introduction website of [RflyMAD](https://rfly-openha.github.io/documents/4_resources/dataset.html). With this structure, toolkits could play their role in data processing.
+And that is the same structure in our [data paper](https://arxiv.org/abs/2311.11340) and the introduction website of [RflyMAD](https://rfly-openha.github.io/documents/4_resources/dataset.html). With this structure, toolkits could play their role in data processing.
 
 Note: The RflyMAD dataset is able to be downloaded from [here](https://rfly-openha.github.io/documents/4_resources/dataset.html). And the data formats in `<Exact flight cases>` could be seen at [Generate your own JSON](#25-additional-generate-your-own-json-for-data-topic-selection).
 
@@ -143,7 +143,7 @@ And the exact meaning of each parser argument is explained in the following tabl
 With a series of selections above, you can decide the data type. And the range of the processed files will be limited within the regions you have selected. 
 
 ### 2. Select Data Topic
-After choose the data type you want, the next step is to select the message topic in each files, and that is also a key step to prepare the data which are used for research. As mentioned in our [data paper]() and the introduction website of [RflyMAD](https://rfly-openha.github.io/documents/4_resources/dataset.html), each flight within the dataset contains four types of raw data and relevant processed files. They could be described as follows:
+After choose the data type you want, the next step is to select the message topic in each files, and that is also a key step to prepare the data which are used for research. As mentioned in our [data paper](https://arxiv.org/abs/2311.11340) and the introduction website of [RflyMAD](https://rfly-openha.github.io/documents/4_resources/dataset.html), each flight within the dataset contains four types of raw data and relevant processed files. They could be described as follows:
 
 |Name          |Meaning    |Exists in |
 |:------------:|:---------:|:------:|
@@ -252,12 +252,13 @@ Attention:
 The first time you run this toolkit may take a long time to generate processed files. For the GTD data files converted from XLSX to CSV format is time-consuming and the conversion of ULog to CSV also takes time. The converted CSV files will be restored in the original dataset path, they may take up some storage space of your device, but they will speed up the next run. So please consider whether to retain these intermediate files at your discretion.
 
 Note:
-The `ULog` and `BAG` data in real flight data have already been converted in original `.rar` files. 
+The `ULog` and `BAG` data in real flight data have already been converted in original `.zip` files. 
 
 ## Requirements
 It is strongly recommended to use the same Python version and related environment to ensure better and smoother usage of this code. The contents of  `requirements.txt` is shown in the following.
 ```text
 python==3.9.7
+pyulog==0.9.0
 matplotlib==3.4.3
 numpy==1.20.3
 openpyxl==3.0.9

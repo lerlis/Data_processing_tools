@@ -341,22 +341,39 @@ class CSVFile_extractor:
         return file_name
 
     def find_fly_land_time(self, land_data):
-        value = land_data[1][1]
+        """
+        Check Topic: Ground_contact is correct or not first
+        """
+        # initialize
+        flytime = land_data[4][0]
+        landtime = land_data[-4][0]
+        # Check fly
+        contact_flag = 0
+        contact_startup = land_data[1][1]
         len_data = len(land_data)
         for i in range(1, len_data):
-            if value == land_data[i][1]:
-                continue
-            else:
-                flytime = land_data[i][0]
-                break
-        fly_index = i
-        value = land_data[fly_index+1][2]
-        for j in range(fly_index + 1, len_data):
-            if value == land_data[j][2]:
-                continue
-            else:
-                landtime = land_data[j][0]
-                break
+            if land_data[i][1] != contact_startup:
+                contact_flag = contact_flag + 1
+                contact_startup = land_data[i][1]
+        if contact_flag > 1:
+            # Process
+            value = land_data[1][1]
+            len_data = len(land_data)
+            for i in range(1, len_data):
+                if value == land_data[i][1]:
+                    continue
+                else:
+                    flytime = land_data[i][0]
+                    break
+            fly_index = i
+            # Use topic: has low throttle to judge
+            value = land_data[fly_index+1][2]
+            for j in range(fly_index + 1, len_data):
+                if value == land_data[j][2]:
+                    continue
+                else:
+                    landtime = land_data[j][0]
+                    break
         return int(flytime), int(landtime)
 
     def cut_data(self, data, begin_time, end_time):
@@ -465,9 +482,9 @@ class CSVFile_extractor:
                     special_label_list[i] = 0
         special_process_num = sum(special_label_list)
         # Adjust the whole number in new list
-        minimal_decimal = 1
-        minimal_decimal_index = -1
         for i in range(special_process_num):
+            minimal_decimal = 1
+            minimal_decimal_index = -1
             for j in range(len(seq_list)):
                 if new_seq_decimal_num[j] > 0.5 and new_seq_decimal_num[j] < minimal_decimal:
                     minimal_decimal = new_seq_decimal_num[j]
@@ -487,9 +504,9 @@ class CSVFile_extractor:
             pass
         else:
             if bias > 0:
-                minimal_decimal = 1
-                minimal_decimal_index = -1
                 for i in range(bias):
+                    minimal_decimal = 1
+                    minimal_decimal_index = -1
                     for j in range(len(seq_list)):
                         if new_seq_decimal_num[j] < minimal_decimal and type(new_seq_decimal_num[j]) != int:
                             minimal_decimal = new_seq_decimal_num[j]
@@ -500,9 +517,9 @@ class CSVFile_extractor:
                         new_seq_num[minimal_decimal_index] = new_seq_num[minimal_decimal_index] - new_seq_decimal_num[minimal_decimal_index]
                     new_seq_decimal_num[minimal_decimal_index] = int(0)
             elif bias < 0:
-                max_decimal = 0
-                max_decimal_index = -1
                 for i in range(abs(bias)):
+                    max_decimal = 0
+                    max_decimal_index = -1
                     for j in range(len(seq_list)):
                         if new_seq_decimal_num[j] > max_decimal and type(new_seq_decimal_num[j]) != int:
                             max_decimal = new_seq_decimal_num[j]
