@@ -27,7 +27,55 @@ class CSVFile_extractor:
         self.str2list_flag = 0
         self.changed_index = 0
         self.target_length = 0
-        
+
+    def Data_checker(self, file_name, path):
+        target_path = self.data_file_path + '//' + path
+        target_file_path = target_path + '//' + file_name
+        all_data = []
+        flag = 0
+        with open(target_file_path, mode='r', encoding='utf-8') as csvfile:
+            csvreader = csv.reader(csvfile)
+            header_row = next(csvreader)
+            all_data.append(header_row)
+            for row in csvreader:
+                all_data.append(row)
+        # check and correct error
+        header = all_data[0]
+        seq_check = 0
+        if header[2] == 'seq':
+            seq_check = 1
+        last_data = all_data[1]
+        SEQ_check_thre = 5
+        row_length = len(header)
+        filter_data = [header]
+        for i in range(1, len(all_data)):
+            this_row_length = len(all_data[i])
+            if this_row_length != row_length:  # Check if the length is same
+                print("Length error! This line is removed: ", all_data[i])
+                flag = 1
+                continue
+            if seq_check and i > 1:  # Check if the topic "seq" is normal
+                if i == len(all_data):
+                    if abs(int(all_data[i][2]) - int(last_data[2])) > SEQ_check_thre:
+                        print("SEQ error! This line is removed: ", all_data[i])
+                        flag = 1
+                        continue
+                if abs(int(all_data[i][2]) - int(last_data[2])) > SEQ_check_thre and abs(int(all_data[i+1][2]) - int(all_data[i][2])) > SEQ_check_thre:
+                    print("SEQ error! This line is removed: ", all_data[i])
+                    flag = 1
+                    continue
+            # Normal
+            filter_data.append(all_data[i])
+            last_data = all_data[i]
+        if flag:
+            print('The file is: ', target_file_path)
+            print('The origin length of data is: ', len(all_data))
+            print('The filtered date length is: ', len(filter_data))
+            # deal with actual files
+            with open(target_file_path, mode='w', encoding='utf-8', newline='') as csvfile:
+                csvwriter = csv.writer(csvfile)
+                csvwriter.writerows(filter_data)
+     
     def DataFromCSV(self, file_name, labels, labels_f, path):
         target_path = self.data_file_path + '//' + path
         target_file_path = target_path + '//' + file_name
@@ -411,20 +459,22 @@ class CSVFile_extractor:
         return data
 
     def freq_adjustment(self, data, target_timevec):
-        time_original = data[1:, 0].astype(float)
+        time_original = data[0:, 0].astype(float)
         # In some cases, the data may not satisfied the length in timesync_status.csv
         # so, we have to repeat the last data a few times to compensate
         if time_original[-1] > target_timevec[-1]:
             pass
         else:
             data = self.adjust_data_length(data, target_timevec)
-        time_original = data[1:, 0].astype(float)
+        # data[1:, 0] in advance version, in order to remove header
+        # now has changed the input vector 'data' with no header
+        time_original = data[0:, 0].astype(float)
         len_col = len(data[0])
         stack_flag = 0
         if len_col != 1:
             stack_flag = 1
         for i in range(1, len_col):
-            data_col = data[1:, i]
+            data_col = data[0:, i]
             type_list_data_col = data_col.tolist()
             if type(type_list_data_col[0]) == str:
                 new_data_col = self.str_freq_adjustment(data_col, len(target_timevec))

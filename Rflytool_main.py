@@ -49,6 +49,9 @@ def Real_data_reader(datapath, datatype, Set_frequency, restore_path):
     R_file_name = '_slash_mavros_slash_timesync_status.csv'
     R_labels = ['rosbagTimestamp', 'remote_timestamp_ns']
     # R_labels_format = ['int', 'int']
+    # Add a checker for ROSBAG file, if there are garbled codes
+    CFEcase.Data_checker(R_file_name, ROS_file_folder)
+    # End of checker
     # TimesyncData = CFEcase.DataFromCSV(R_file_name, R_labels, R_labels_format, ROS_file_folder)
     TimesyncData = CFEcase.DataFromCSV_Panda(R_file_name, R_labels, ROS_file_folder)
     start_time, end_time = TimesyncData[1], TimesyncData[-1]
@@ -89,6 +92,9 @@ def Real_data_reader(datapath, datatype, Set_frequency, restore_path):
     for i in range(file_num):
         ROS_file_name = label2[i] + '.csv'
         info_read = ['rosbagTimestamp'] + info2[i]
+        # Add a checker for ROSBAG file, if there are garbled codes
+        CFEcase.Data_checker(ROS_file_name, ROS_file_folder)
+        # End of checker
         data = CFEcase.DataFromCSV_Panda(ROS_file_name, info_read, ROS_file_folder)
         data = CFEcase.rosdata_timestamp_trans(TimeTool, data)
         all_data_head.append(data[0])

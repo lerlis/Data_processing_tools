@@ -253,6 +253,7 @@ The first time you run this toolkit may take a long time to generate processed f
 
 Note:
 The `ULog` and `BAG` data in real flight data have already been converted in original `.zip` files. 
+The meanings of the names of the processed files are introduced in [RflyMAD Website](https://rfly-openha.github.io/documents/4_resources/dataset.html), section 4.
 
 ## Requirements
 It is strongly recommended to use the same Python version and related environment to ensure better and smoother usage of this code. The contents of  `requirements.txt` is shown in the following.
