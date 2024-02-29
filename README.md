@@ -193,7 +193,9 @@ Take `data_real_PX4.json` as an example, if you want to choose a message topic i
 ```
 As shown above, `control[0]`, `control[1]`, `control[2]`, `control[3]` are selected and will be processed by this toolkit, and other message topics in this file `_actuator_controls_0_0.csv` won't be processed. Besides, all dictionary key-value pair of message topics in file `_actuator_armed_0.csv` are set to 0, which means this entire file won't be processed or even be read by programs.
 
-Note:  `Flight Information` contains a concise summary information of a single flight case, so there is no need to process this file. `Telemetry Log` have not been taken into consideration in this toolkit version, and the toolkit which could process `Telemetry Log` will be developed and released in the future.
+Note:  
+
+`Flight Information` contains a concise summary information of a single flight case, so there is no need to process this file. `Telemetry Log` have not been taken into consideration in this toolkit version, and the toolkit which could process `Telemetry Log` will be developed and released in the future.
 
 ### 2.5 [Additional] Generate your own JSON for data topic selection
 In this toolkit, we have generated `JSON` files by using RflyMAD data which are under data formats we designed. If you want to transfer your own data, such as ULog and Rosbag with different message topics, you can use `./Data_processing_tools/read_contents.py` to generate `JSON` file that is suitable for your data, and then follow the above steps to get the processed files.
@@ -249,11 +251,13 @@ python Rflytool_main.py
 The processed files will be restored in `--restore_path`, which you set in [Data type selection](#1-select-data-type) by using `argparse`. And now, you could use processed files to take researches like fault detection and isolation (FDI) or health assessment (HA) as you want!
 
 Attention:
+
 The first time you run this toolkit may take a long time to generate processed files. For the GTD data files converted from XLSX to CSV format is time-consuming and the conversion of ULog to CSV also takes time. The converted CSV files will be restored in the original dataset path, they may take up some storage space of your device, but they will speed up the next run. So please consider whether to retain these intermediate files at your discretion.
 
 Note:
-The `ULog` and `BAG` data in real flight data have already been converted in original `.zip` files. 
-The meanings of the names of the processed files are introduced in [RflyMAD Website](https://rfly-openha.github.io/documents/4_resources/dataset.html), section 4.
+
+1. The `ULog` and `BAG` data in real flight data have already been converted in original `.zip` files. 
+2. The meanings of the names of the processed files are introduced in [RflyMAD Website](https://rfly-openha.github.io/documents/4_resources/dataset.html), section 4.
 
 ## Requirements
 It is strongly recommended to use the same Python version and related environment to ensure better and smoother usage of this code. The contents of  `requirements.txt` is shown in the following.
