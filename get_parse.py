@@ -50,8 +50,12 @@ def sub_dataset_path_trans(id):
         return '/HIL'
     elif id == 3:
         return '/Real'
+    elif id == 4:
+        return '/SILwithROS'
+    elif id == 5:
+        return '/HILwithROS'
     elif id == 0:
-        return ['/SIL', '/HIL', '/Real']
+        return ['/SIL', '/HIL', '/Real', '/SILwithROS', '/HILwithROS']
 
 
 def fault_type_path_trans(id):
@@ -120,9 +124,10 @@ def get_parse():
     # sub-dataset:
     # default = 0, trans data in the SIL, HIL and Real folder
     # 1 for SIL, 2 for HIL, and 3 for Real
+    # 4 for SIL_with_ROS, and 5 for HIL_with_ROS
     # Note: if you only choose one sub-dataset type, please input as [X]
     parser.add_argument('--sub_dataset', type=int, nargs='+', default=[0],
-                        choices=[0, 1, 2, 3],
+                        choices=[0, 1, 2, 3, 4, 5],
                         help='select the sub_dataset you want')
     # fault type:
     # default = 0, trans all the fault type in the dataset

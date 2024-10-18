@@ -249,6 +249,10 @@ if __name__ == "__main__":
             DataType = 2
         elif sub_dataset_path[i] == '/Real':
             DataType = 3
+        elif sub_dataset_path[i] == '/SILwithROS':
+            DataType = 4
+        elif sub_dataset_path[i] == '/HILwithROS':
+            DataType = 5
         for j in range(len(flight_status_path)):
             for k in range(len(fault_type_path)):
                 # structure path
@@ -266,7 +270,7 @@ if __name__ == "__main__":
                             caseID = CaseID_generator(DataType, flight_id_dict(flight_status_path[j]), fault_id_dict(fault_type_path[k]), l)
                             Restore_path = restore_path + '/Case_{}.csv'.format(caseID)
                             data_path = structure_path + '/' + dir_list[l]
-                            if DataType == 3:
+                            if DataType == 3 or DataType == 4 or DataType == 5:
                                 print(data_path)
                                 Real_data_reader(data_path, DataType, Set_frequency, Restore_path)
                                 print(time.time() - START_TIME)
@@ -280,6 +284,7 @@ if __name__ == "__main__":
     """
     DataType = 1, for SIL;
     = 2, for HIL; and = 3, for real flight.
+    = 4, for SIL with ROS, = 5 for HIL with ROS
     """
     # DataType = 3
     # DataPath = 'F:\\CODE\\Python\\fault_data_process\\SampleData\\Real\\hover\\56_1'

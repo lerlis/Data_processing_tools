@@ -25,6 +25,7 @@ def data_extractor(selected_type):
     """
     selected_type = 1, for SIL;
     = 2, for HIL; and = 3, for real flight.
+    = 4, for SIL with ROS, = 5 for HIL with ROS
     """
     if selected_type == 1:  # For SIL
         labelp, infop = data_dict_reader('./data_SIL_PX4.json', 'SIL_PX4')
@@ -32,7 +33,7 @@ def data_extractor(selected_type):
     elif selected_type == 2:  # For HIL
         labelp, infop = data_dict_reader('./data_HIL_PX4.json', 'HIL_PX4')
         label2, info2 = data_dict_reader('./data_HIL_GTD.json', 'HIL_Ground_Truth_Data')
-    elif selected_type == 3:  # For Real
+    elif selected_type == 3 or selected_type == 4 or selected_type == 5:  # For data with ROS
         labelp, infop = data_dict_reader('./data_real_PX4.json', 'Real_PX4')
         label2, info2 = data_dict_reader('./data_real_ROS.json', 'Real_ROS')
     return labelp, infop, label2, info2
