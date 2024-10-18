@@ -39,7 +39,7 @@ class UlogProcessor:
 
 
 if __name__ == "__main__":
-    path = 'F://健康评估//数据集论文//实飞//怀来实飞数据//680//0616'
+    path = 'F://CODE//python//Data_processing_tools//HIL_5//ulog'
     UPcase = UlogProcessor(path)
     UPcase.Ulog2csv_py()
 

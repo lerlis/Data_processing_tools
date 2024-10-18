@@ -17,6 +17,8 @@ class DataAllocator:
         CFEcase = CSVFile_extractor(self.Data_source_path)
         for i in range(len(self.filelist)):
             return_num = self.check_labels(self.filelist[i], labels)
+            if return_num != 2 and return_num != 3:
+                return_num = 1 # ulog 名字出了一定问题的时候，这么用，平常可以注释掉
             if return_num == 1:
                 PX4_file_folder = self.filelist[i]
                 file_name = self.filelist[i] + '_rfly_ctrl_lxl_0.csv'
@@ -97,8 +99,8 @@ class DataAllocator:
 
 
 if __name__ == "__main__":
-    source_file_path = 'F://健康评估//数据集论文//实飞//怀来实飞数据//680//0616'
-    target_file_path = 'F://健康评估//数据集论文//实飞//整理数据//680'
+    source_file_path = 'F://CODE//python//Data_processing_tools//HIL_5//ulog'
+    target_file_path = 'H://HIL_with_ROS_5'
     labels = ['log', 'rfly_real', 'TestInfo']
     DAcase = DataAllocator(source_file_path, target_file_path)
     DAcase.get_file_list()
